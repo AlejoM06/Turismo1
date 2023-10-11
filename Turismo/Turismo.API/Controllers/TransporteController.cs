@@ -24,14 +24,8 @@ namespace Turismo.API.Controllers
             return Ok(await _context.Transportes.ToListAsync());
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Get()
-        {
-            return Ok(await _context.Transportes.ToListAsync());
-        }
 
         [HttpGet("{id:int}")]
-
         public async Task<ActionResult> Get(int id)
         {
             var transporte = await _context.Transportes.FirstOrDefaultAsync(c => c.Id == id);

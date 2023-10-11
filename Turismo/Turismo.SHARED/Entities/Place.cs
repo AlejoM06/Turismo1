@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Turismo.SHARED.Entities
+namespace Turismo.Shared.Entities
 {
     public class Place
     {

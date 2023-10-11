@@ -13,8 +13,6 @@ namespace Turismo.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-
-
         public DbSet<City> Cities { get; set; }
         public DbSet<Celebracion> Celebraciones { get; set; }
         public DbSet<Place> Places { get; set; }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Turismo.SHARED.Entities
 {
-    internal class Place
+    public class Place
     {
+
     }
 }

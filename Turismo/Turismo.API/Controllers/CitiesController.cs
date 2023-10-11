@@ -19,6 +19,13 @@ namespace Turismo.API.Controllers
             _context = context;
 
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Get()
+        {
+            return Ok(await _context.Cities.ToListAsync());
+        }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {

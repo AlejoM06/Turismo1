@@ -9,10 +9,7 @@ namespace Turismo.API.Controllers
     [ApiController]
     [Route("/api/people")]
     public class PeoplesController : ControllerBase
-    {
-        
-
-        
+    {        
 
             private readonly DataContext _context;
 
@@ -21,6 +18,14 @@ namespace Turismo.API.Controllers
                 _context = context;
 
             }
+
+
+             [HttpGet]
+             public async Task<ActionResult> Get()
+             {
+                 return Ok(await _context.Peoples.ToListAsync());
+             }
+
             [HttpGet("{id:int}")]
             public async Task<ActionResult> Get(int id)
             {

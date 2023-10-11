@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Turismo.SHARED.Entities
 {
-    internal class City
+    public class City
     {
         public int Id { get; set; }
         [Display(Name = "Nombre Ciudad")] // Etiquetas nombre campo

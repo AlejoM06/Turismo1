@@ -1,10 +1,9 @@
 ﻿using Turismo.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using Turismo.API.Controllers;
-using System.Collections.Generic;
-using System.Reflection.Emit;
+using Turismo.SHARED.Entities;
 
-namespace Turismo.API.Data
+namespace  Turismo.API.Data
 {
     public class DataContext : DbContext
 
@@ -18,7 +17,7 @@ namespace Turismo.API.Data
         public DbSet<Place> Places { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Transporte> Transportes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

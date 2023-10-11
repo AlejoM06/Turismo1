@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Turismo.SHARED.Entities
 {
-    internal class Transporte
+    public class Transporte
     {
     }
 }

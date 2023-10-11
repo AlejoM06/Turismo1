@@ -23,4 +23,3 @@ namespace Turismo.SHARED.Entities
     }
 
 }
-}

@@ -21,5 +21,7 @@ namespace Turismos.Shared.Entities
         [Required]
         [Display(Name = "Teléfono")]
         public int Telefono { get; set; }
+
+        public ICollection<Viaje>? Viajes { get; set; }
     }
 }

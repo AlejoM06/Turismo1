@@ -29,5 +29,13 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Cantidad de puestos")]
         [DataType(DataType.PhoneNumber)]
         public string? Puestos { get; set; }
+
+        public Hotel? Hotel { get; set; }
+        public int HotelId { get; set; }
+        public Transporte? Transporte { get; set; }
+        public int TransporteId { get; set; }
+
+        public ICollection<Cliente>? Clientes { get; set; }
+
     }
 }

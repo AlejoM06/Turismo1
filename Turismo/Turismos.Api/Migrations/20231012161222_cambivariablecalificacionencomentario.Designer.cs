@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Turismos.Api.Data;
 
@@ -11,9 +12,11 @@ using Turismos.Api.Data;
 namespace Turismos.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231012161222_cambivariablecalificacionencomentario")]
+    partial class cambivariablecalificacionencomentario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,6 @@ namespace Turismos.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ComentarioId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Correo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -44,9 +44,6 @@ namespace Turismos.Api.Migrations
                     b.Property<string>("Direccion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FacturaId")
-                        .HasColumnType("int");
 
                     b.Property<string>("NomUsuario")
                         .IsRequired()
@@ -57,19 +54,10 @@ namespace Turismos.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ViajeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Cedula")
                         .IsUnique();
-
-                    b.HasIndex("ComentarioId");
-
-                    b.HasIndex("FacturaId");
-
-                    b.HasIndex("ViajeId");
 
                     b.ToTable("Clientes");
                 });
@@ -109,15 +97,10 @@ namespace Turismos.Api.Migrations
                     b.Property<int>("Fecha")
                         .HasColumnType("int");
 
-                    b.Property<int>("TipoPagoId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TipoPagoId");
 
                     b.ToTable("Facturas");
                 });
@@ -214,9 +197,6 @@ namespace Turismos.Api.Migrations
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Origen")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -226,103 +206,9 @@ namespace Turismos.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TransporteId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelId");
-
-                    b.HasIndex("TransporteId");
-
                     b.ToTable("Viajes");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Cliente", b =>
-                {
-                    b.HasOne("Turismos.Shared.Entities.Comentario", "Comentario")
-                        .WithMany("Cliente")
-                        .HasForeignKey("ComentarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Turismos.Shared.Entities.Factura", "Factura")
-                        .WithMany("Cliente")
-                        .HasForeignKey("FacturaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Turismos.Shared.Entities.Viaje", "Viajes")
-                        .WithMany("Clientes")
-                        .HasForeignKey("ViajeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comentario");
-
-                    b.Navigation("Factura");
-
-                    b.Navigation("Viajes");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Factura", b =>
-                {
-                    b.HasOne("Turismos.Shared.Entities.TipoPago", "TipoPago")
-                        .WithMany("Factura")
-                        .HasForeignKey("TipoPagoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TipoPago");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Viaje", b =>
-                {
-                    b.HasOne("Turismos.Shared.Entities.Hotel", "Hotel")
-                        .WithMany("Viajes")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Turismos.Shared.Entities.Transporte", "Transporte")
-                        .WithMany("Viajes")
-                        .HasForeignKey("TransporteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hotel");
-
-                    b.Navigation("Transporte");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Comentario", b =>
-                {
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Factura", b =>
-                {
-                    b.Navigation("Cliente");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Hotel", b =>
-                {
-                    b.Navigation("Viajes");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.TipoPago", b =>
-                {
-                    b.Navigation("Factura");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Transporte", b =>
-                {
-                    b.Navigation("Viajes");
-                });
-
-            modelBuilder.Entity("Turismos.Shared.Entities.Viaje", b =>
-                {
-                    b.Navigation("Clientes");
                 });
 #pragma warning restore 612, 618
         }

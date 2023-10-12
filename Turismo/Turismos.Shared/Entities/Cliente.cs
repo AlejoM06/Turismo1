@@ -30,5 +30,13 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Dirección")]
         public string? Direccion { get; set; }
 
+        public Factura? Factura { get; set; }
+        public int FacturaId { get; set; }
+
+        public Comentario? Comentario { get; set; }
+        public int ComentarioId { get; set; }
+
+        public Viaje? Viajes { get; set; }
+        public int ViajeId { get; set; }
     }
 }

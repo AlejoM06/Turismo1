@@ -21,5 +21,11 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Detalle")]
         [DataType(DataType.MultilineText)]
         public string? Detalle { get; set; }
+
+        public TipoPago? TipoPago { get; set; }
+        public int TipoPagoId { get; set; }
+
+        public ICollection<Cliente>? Cliente { get; set; }
+
     }
 }

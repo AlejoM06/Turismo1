@@ -11,14 +11,15 @@ namespace Turismos.Shared.Entities
     public class Comentario
     {
         public int Id { get; set; }
-        [Display(Name = "Calificación")] // Etiquetas nombre campo
+        [Display(Name = "Calificación de 1 a 5")] // Etiquetas nombre campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        [DataType(DataType.MultilineText)]
-        public string? Calificacion { get; set; }
+        public int Calificacion { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)]
         public string? Descripcion { get; set; }
+
+        public ICollection<Cliente>? Cliente { get; set; }
 
     }
 }

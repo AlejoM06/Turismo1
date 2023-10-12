@@ -16,5 +16,8 @@ namespace Turismos.Shared.Entities
         public string? TDebito { get; set; }
         public double Efectivo { get; set; }
         public string? PSE { get; set; }
+
+        public ICollection<Factura>? Factura { get; set; }
+
     }
 }

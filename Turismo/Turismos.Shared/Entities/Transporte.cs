@@ -23,5 +23,6 @@ namespace Turismos.Shared.Entities
         [DataType(DataType.Date)]
         public DateTime FechaFinal { get; set; }
 
+        public ICollection<Viaje>? Viajes { get; set; }
     }
 }

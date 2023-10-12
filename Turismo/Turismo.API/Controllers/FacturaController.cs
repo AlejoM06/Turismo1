@@ -6,68 +6,71 @@ using Turismo.SHARED.Entities;
 namespace Turismo.API.Controllers
 {
     [ApiController]
-    [Route("/api/transporte")]
-    public class TransporteController : ControllerBase
+    [Route("/api/factura")]
+    public class FacturaController : ControllerBase
     {
+
         private readonly DataContext _context;
 
-        public TransporteController(DataContext context)
+
+        public FacturaController(DataContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.Transportes.ToListAsync());
-        }
 
+            return Ok(await _context.Facturas.ToListAsync());
+
+        }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
-            var transporte = await _context.Transportes.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (transporte == null)
+            var factura = await _context.Facturas.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (factura == null)
             {
                 return NotFound();//404
             }
 
-            return Ok(transporte);
+            return Ok(factura);//200
+
         }
 
         [HttpPost]
 
-        public async Task<ActionResult> Post(Transporte transporte)
+        public async Task<ActionResult> Post(Factura factura)
         {
-            _context.Add(transporte);
+            _context.Add(factura);
             await _context.SaveChangesAsync();
-            return Ok(transporte);
+            return Ok(factura);
         }
 
         [HttpPut]
 
-        public async Task<ActionResult> Put(Transporte transporte)
+        public async Task<ActionResult> Put(Factura factura)
         {
-            _context.Update(transporte);
+            _context.Update(factura);
             await _context.SaveChangesAsync();
-            return Ok(transporte);
+            return Ok(factura);
         }
 
         [HttpDelete("{id:int}")]
 
         public async Task<ActionResult> Delete(int id)
         {
-
-            var filaafectada = await _context.Transportes.Where(c => c.Id == id).ExecuteDeleteAsync();
+            var filaafectada = await _context.Facturas.Where(c => c.Id == id).ExecuteDeleteAsync();
 
             if (filaafectada == 0)
             {
                 return NotFound();//404
             }
 
-            return NoContent();
+            return NoContent();//204
         }
 
     }

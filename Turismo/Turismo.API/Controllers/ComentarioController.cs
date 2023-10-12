@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Turismo.API.Data;
-using Turismo.Shared.Entities;
 using Turismo.SHARED.Entities;
 
 namespace Turismo.API.Controllers
 {
     [ApiController]
-    [Route("/api/cities")]
+    [Route("/api/comentarios")]
 
-    public class CitiesController : ControllerBase
+    public class ComentarioController : ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public CitiesController(DataContext context)
+        public ComentarioController(DataContext context)
         {
             _context = context;
 
@@ -23,44 +22,49 @@ namespace Turismo.API.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            return Ok(await _context.Cities.ToListAsync());
+
+            return Ok(await _context.Comentarios.ToListAsync());    
+
         }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
         {
 
-            var city = await _context.Cities.FirstOrDefaultAsync(c => c.Id == id);
+            var comentario = await _context.Comentarios.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (city == null)
+            if (comentario == null)
             {
                 return NotFound();//404
             }
 
-            return Ok(city);//200
+            return Ok(comentario);//200
 
         }
+
         [HttpPost]
 
-        public async Task<ActionResult> Post(City city)
+        public async Task<ActionResult> Post(Comentario comentario)
         {
-            _context.Add(city);
+            _context.Add(comentario);
             await _context.SaveChangesAsync();
-            return Ok(city);
+            return Ok(comentario);
         }
+
         [HttpPut]
 
-        public async Task<ActionResult> Put(City city)
+        public async Task<ActionResult> Put(Comentario comentario)
         {
-            _context.Update(city);
+            _context.Update(comentario);
             await _context.SaveChangesAsync();
-            return Ok(city);
+            return Ok(comentario);
         }
+
         [HttpDelete("{id:int}")]
 
         public async Task<ActionResult> Delete(int id)
         {
-            var filaafectada = await _context.Cities.Where(c => c.Id == id).ExecuteDeleteAsync();
+            var filaafectada = await _context.Comentarios.Where(c => c.Id == id).ExecuteDeleteAsync();
 
             if (filaafectada == 0)
             {
@@ -69,5 +73,6 @@ namespace Turismo.API.Controllers
 
             return NoContent();//204
         }
+
     }
 }

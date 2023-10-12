@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Turismo.API.Data;
-using Turismo.Shared.Entities;
 using Turismo.SHARED.Entities;
 
 namespace Turismo.API.Controllers

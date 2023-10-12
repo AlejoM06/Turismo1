@@ -5,28 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Turismo.SHARED.Entities
+namespace Turismo.Shared.Entities
 {
-    public class People
+    public class Viaje
     {
         public int Id { get; set; }
-        [Display(Name = "Nombre Ciudad")] // Etiquetas nombre campo
+        [Display(Name = "Origen")] // Etiquetas nombre campo
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener unicamente 100 caracteres")] //Es la longitud de caracteres del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        public string? NomUsuario { get; set; }
+        public string? Origen { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
-        [Display(Name = "Edad")]
-        public string? Edad { get; set; }
+        [Display(Name = "Destino")]
+        public string? Destino { get; set; }
         [Required(ErrorMessage = "El campo {2} es obligatorio")]
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Teléfono")]
-        public string? Telefono { get; set; }
+        [Display(Name = "Fecha de inicio")]
+        [DataType(DataType.Date)]
+        public DateTime FechaInicio { get; set; }
         [Required(ErrorMessage = "El campo {3} es obligatorio")]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "E-mail")]
-        public string? Correo { get; set; }
+        [Display(Name = "Fecha final")]
+        [DataType(DataType.Date)]
+        public DateTime FechaFin { get; set; }
         [Required(ErrorMessage = "El campo {4} es obligatorio")]
-        [Display(Name = "Dirección")]
-        public string? Direccion { get; set; }
+        [Display(Name = "Cantidad de puestos")]
+        [DataType(DataType.PhoneNumber)]   
+        public string? Puestos { get; set; }
     }
 }

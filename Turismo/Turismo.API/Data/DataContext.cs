@@ -12,14 +12,13 @@ namespace  Turismo.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Celebracion> Celebraciones { get; set; }
-        public DbSet<Place> Places { get; set; }
+        public DbSet<Viaje> Viajes { get; set; }
         public DbSet<People> Peoples { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Transporte> Transportes { get; set; }
-
-
+        public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<TipoPago> TipoPagos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

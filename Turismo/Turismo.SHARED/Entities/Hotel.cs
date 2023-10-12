@@ -14,9 +14,13 @@ namespace Turismo.SHARED.Entities
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener unicamente 100 caracteres")] //Es la longitud de caracteres del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
         public string? NombreHotel { get; set; }
-
-        public string? Dirección { get; set; }
-        public string? Servicios { get; set; }
+        [Required(ErrorMessage = "El campo {1} es obligatorio")]
+        [Display(Name = "Cantidad de habitaciones")]
+        public string? Habitaciones { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        [Required]
+        [Display(Name = "Teléfono")]
+        public int Telefono { get; set; }
     }
 
 }

@@ -2,17 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Turismo.Shared.Entities;
 using Turismo.API.Data;
+
 namespace Turismo.API.Controllers
 {
     [ApiController]
-    [Route("/api/celebracion")]
-    public class CelebracionesController : ControllerBase
+    [Route("/api/viaje")]
+    public class ViajesController : ControllerBase
 
         {
 
             private readonly DataContext _context;
 
-            public CelebracionesController(DataContext context)
+            public ViajesController(DataContext context)
             {
                 _context = context;
 
@@ -22,7 +23,7 @@ namespace Turismo.API.Controllers
             public async Task<ActionResult> Get()
             {
 
-                return Ok(await _context.Celebraciones.ToListAsync());
+                return Ok(await _context.Viajes.ToListAsync());
 
             }
 
@@ -30,38 +31,38 @@ namespace Turismo.API.Controllers
             public async Task<ActionResult> Get(int id)
             {
 
-                var celebracion = await _context.Celebraciones.FirstOrDefaultAsync(c => c.Id == id);
+                var viaje = await _context.Viajes.FirstOrDefaultAsync(c => c.Id == id);
 
-                if (celebracion == null)
+                if (viaje == null)
                 {
                     return NotFound();//404
                 }
 
-                return Ok(celebracion);//200
+                return Ok(viaje);//200
 
             }
             [HttpPost]
 
-            public async Task<ActionResult> Post(Celebracion celebracion)
+            public async Task<ActionResult> Post(Viaje viaje)
             {
-                _context.Add(celebracion);
+                _context.Add(viaje);
                 await _context.SaveChangesAsync();
-                return Ok(celebracion);
+                return Ok(viaje);
             }
 
             [HttpPut]
 
-            public async Task<ActionResult> Put(Celebracion celebracion)
+            public async Task<ActionResult> Put(Viaje viaje)
             {
-                _context.Update(celebracion);
+                _context.Update(viaje);
                 await _context.SaveChangesAsync();
-                return Ok(celebracion);
+                return Ok(viaje);
             }
             [HttpDelete("{id:int}")]
 
             public async Task<ActionResult> Delete(int id)
             {
-                var filaafectada = await _context.Celebraciones.Where(c => c.Id == id).ExecuteDeleteAsync();
+                var filaafectada = await _context.Viajes.Where(c => c.Id == id).ExecuteDeleteAsync();
 
                 if (filaafectada == 0)
                 {

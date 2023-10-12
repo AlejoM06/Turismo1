@@ -11,15 +11,19 @@ namespace Turismo.SHARED.Entities
     public class Transporte
     {
         public int Id { get; set; }
-        [Display(Name = "Nombre Ciudad")] // Etiquetas nombre campo
+        [Display(Name = "Compañia")] // Etiquetas nombre campo
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener unicamente 100 caracteres")] //Es la longitud de caracteres del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        public string? TipoTransporte { get; set; }
-
+        public string? Compania { get; set; }
+        [Required(ErrorMessage = "El campo {1} es obligatorio")]
+        [Display(Name = "Fecha de Recogida")]
+        [DataType(DataType.Date)]
         public DateTime FechaRecogida { get; set; }
+        [Required(ErrorMessage = "El campo {2} es obligatorio")]
+        [Display(Name = "Fecha de finalización del recorrido")]
+        [DataType(DataType.Date)]
         public DateTime FechaFinal { get; set; }
-        public string? LugarRecogida { get; set; }
-        public string? LugarFinal { get; set; }
+
     }
 
 }

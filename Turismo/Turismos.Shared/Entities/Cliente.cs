@@ -16,8 +16,8 @@ namespace Turismos.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
         public string? NomUsuario { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
-        [Display(Name = "Edad")]
-        public string? Edad { get; set; }
+        [Display(Name = "Documento de Identidad")]
+        public string? Cedula { get; set; }
         [Required(ErrorMessage = "El campo {2} es obligatorio")]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Teléfono")]

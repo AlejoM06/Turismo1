@@ -20,6 +20,8 @@ namespace Turismos.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Cliente>().HasIndex(c => c.Cedula).IsUnique();
         }
 
     } 

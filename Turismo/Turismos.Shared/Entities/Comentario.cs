@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Turismos.Shared.Entities
@@ -17,9 +18,11 @@ namespace Turismos.Shared.Entities
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)]
-        public string? Descripcion { get; set; }
+        public string Descripcion { get; set; }
 
-        public ICollection<Cliente>? Cliente { get; set; }
+        [JsonIgnore]
+        public Cliente Cliente { get; set; }
+        public int ClienteId { get; set; }
 
     }
 }

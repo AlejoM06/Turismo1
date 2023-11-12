@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Turismos.Shared.Entities
@@ -13,7 +14,7 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Compañia")] // Etiquetas nombre campo
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener unicamente 100 caracteres")] //Es la longitud de caracteres del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        public string? Compania { get; set; }
+        public string Compania { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Fecha de Recogida")]
         [DataType(DataType.Date)]
@@ -23,6 +24,7 @@ namespace Turismos.Shared.Entities
         [DataType(DataType.Date)]
         public DateTime FechaFinal { get; set; }
 
-        public ICollection<Viaje>? Viajes { get; set; }
+        [JsonIgnore]
+        public ICollection<Viaje> Viajes { get; set; }
     }
 }

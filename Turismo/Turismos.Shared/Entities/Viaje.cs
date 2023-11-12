@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Turismos.Shared.Entities
@@ -13,10 +14,10 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Origen")] // Etiquetas nombre campo
         [MaxLength(100, ErrorMessage = "El campo {0} debe contener unicamente 100 caracteres")] //Es la longitud de caracteres del campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        public string? Origen { get; set; }
+        public string Origen { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Destino")]
-        public string? Destino { get; set; }
+        public string Destino { get; set; }
         [Required(ErrorMessage = "El campo {2} es obligatorio")]
         [Display(Name = "Fecha de inicio")]
         [DataType(DataType.Date)]
@@ -28,14 +29,19 @@ namespace Turismos.Shared.Entities
         [Required(ErrorMessage = "El campo {4} es obligatorio")]
         [Display(Name = "Cantidad de puestos")]
         [DataType(DataType.PhoneNumber)]
-        public string? Puestos { get; set; }
+        public string Puestos { get; set; }
 
-        public Hotel? Hotel { get; set; }
+        [JsonIgnore]
+        public Cliente Cliente { get; set; }
+        public int ClienteId { get; set; }
+
+        [JsonIgnore]
+        public Hotel Hotel { get; set; }
         public int HotelId { get; set; }
-        public Transporte? Transporte { get; set; }
-        public int TransporteId { get; set; }
 
-        public ICollection<Cliente>? Clientes { get; set; }
+        [JsonIgnore]
+        public Transporte Transporte { get; set; }
+        public int TransporteId { get; set; }
 
     }
 }

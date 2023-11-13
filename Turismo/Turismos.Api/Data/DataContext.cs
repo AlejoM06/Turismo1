@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using Turismos.Shared.Entities;
 
 namespace Turismos.Api.Data
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -18,7 +17,6 @@ namespace Turismos.Api.Data
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<TipoPago> TipoPagos { get; set; }
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

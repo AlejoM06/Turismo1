@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turismos.Shared", "Turismos.Shared\Turismos.Shared.csproj", "{CAF4EA85-6274-4EFB-8869-79D88470F7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Turismos.Shared", "Turismos.Shared\Turismos.Shared.csproj", "{CAF4EA85-6274-4EFB-8869-79D88470F7BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turismos.Api", "Turismos.Api\Turismos.Api.csproj", "{A1233D10-93FD-46AC-BE6E-20FB19936762}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Turismos.Api", "Turismos.Api\Turismos.Api.csproj", "{A1233D10-93FD-46AC-BE6E-20FB19936762}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Turismos.Web", "Turismos.Web\Turismos.Web.csproj", "{2FFFB5FA-C2DE-4497-86FB-44C9A33935AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Turismos.Web", "Turismos.Web\Turismos.Web.csproj", "{2FFFB5FA-C2DE-4497-86FB-44C9A33935AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

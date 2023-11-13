@@ -4,11 +4,11 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm EditContext="editContext" OnSubmit="OnSubmit">
+<EditForm EditContext="editContext" OnSubmit="OnValidSubmit">
 
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>Factura:</label>
+        <label>Fecha:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Factura.Fecha" />
             <ValidationMessage For="@(() => Factura.Fecha)" />
@@ -30,17 +30,20 @@
 </EditForm>
 
 @code {
-
     private EditContext editContext = null!;
 
     protected override void OnInitialized()
     {
-        editContext = new(Factura);
+        editContext = new EditContext(Factura);
     }
 
     [EditorRequired]
     [Parameter]
     public Factura Factura { get; set; } = null!;
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
 
     [EditorRequired]
     [Parameter]
@@ -83,7 +86,6 @@
 
         context.PreventNavigation();
     }
-
 }
 
 

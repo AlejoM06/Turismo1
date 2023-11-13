@@ -21,7 +21,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.TipoPagos.ToListAsync());
+            return Ok(await _context.TipoPagos
+                            .Include(tp => tp.Facturas)
+                            .ToListAsync());
 
         }
 
@@ -33,7 +35,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var tipopago = await _context.TipoPagos.FirstOrDefaultAsync(c => c.Id == id);
+            var tipopago = await _context.TipoPagos
+                            .Include(tp => tp.Facturas)
+                            .FirstOrDefaultAsync(c => c.Id == id);
 
             if (tipopago == null)
             {

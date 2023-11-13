@@ -24,7 +24,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Comentarios.ToListAsync());
+            return Ok(await _context.Comentarios
+                .Include(c => c.Cliente)
+                .ToListAsync());
 
         }
 
@@ -33,7 +35,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var comentario = await _context.Comentarios.FirstOrDefaultAsync(c => c.Id == id);
+            var comentario = await _context.Comentarios
+                .Include(c => c.Cliente)  
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (comentario == null)
             {
@@ -44,6 +48,16 @@ namespace Turismos.Api.Controllers
 
             return Ok(comentario);//200
 
+        }
+
+        [HttpGet("full")]
+        public async Task<ActionResult> GetFull()
+        {
+            var comentarios = await _context.Comentarios
+                .Include(c => c.Cliente)
+                .ToListAsync();
+
+            return Ok(comentarios);
         }
 
         [HttpPost]

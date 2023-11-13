@@ -4,7 +4,7 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm EditContext="editContext" OnSubmit="OnValidSubmit">
+<EditForm EditContext="editContext" OnSubmit="OnSubmit">
 
     <DataAnnotationsValidator />
     <div class="mb-3">
@@ -34,7 +34,7 @@
 
     protected override void OnInitialized()
     {
-        editContext = new EditContext(Hotel);
+        editContext = new(Hotel);
     }
 
     [EditorRequired]
@@ -43,16 +43,11 @@
 
     [EditorRequired]
     [Parameter]
-    public EventCallback OnValidSubmit { get; set; }
-
-    [EditorRequired]
-    [Parameter]
     public EventCallback OnSubmit { get; set; }
 
     [EditorRequired]
     [Parameter]
     public EventCallback ReturnAction { get; set; }
-
     public bool FormPostedSuccessfully { get; set; } = false;
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)
@@ -86,6 +81,8 @@
 
         context.PreventNavigation();
     }
+
 }
+
 
 

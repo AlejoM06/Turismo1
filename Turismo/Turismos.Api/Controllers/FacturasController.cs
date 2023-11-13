@@ -21,8 +21,10 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Facturas.ToListAsync());
-
+            return Ok(await _context.Facturas
+                .Include(factura => factura.Cliente)
+                .Include(factura => factura.TipoPago)
+                .ToListAsync());
         }
 
 
@@ -32,8 +34,10 @@ namespace Turismos.Api.Controllers
         public async Task<ActionResult> Get(int id)
         {
 
-
-            var factura = await _context.Facturas.FirstOrDefaultAsync(c => c.Id == id);
+            var factura = await _context.Facturas
+                .Include(f => f.Cliente)
+                .Include(f => f.TipoPago)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (factura == null)
             {
@@ -44,6 +48,17 @@ namespace Turismos.Api.Controllers
 
             return Ok(factura);//200
 
+        }
+
+        [HttpGet("full")]
+        public async Task<ActionResult<IEnumerable<Factura>>> GetFull()
+        {
+            return await _context.Facturas
+                .Include(factura => factura.Cliente)
+                .ThenInclude(cliente => cliente.Comentarios)
+                .Include(factura => factura.Transporte)
+                .ThenInclude(transporte => transporte.Viajes)
+                .ToListAsync();
         }
 
         [HttpPost]

@@ -21,7 +21,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Hotels.ToListAsync());
+            return Ok(await _context.Hotels
+                .Include(h => h.Viajes)
+                .ToListAsync());
 
         }
 
@@ -33,7 +35,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var hotel = await _context.Hotels.FirstOrDefaultAsync(c => c.Id == id);
+            var hotel = await _context.Hotels
+                 .Include(h => h.Viajes)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (hotel == null)
             {
@@ -44,6 +48,18 @@ namespace Turismos.Api.Controllers
 
             return Ok(hotel);//200
 
+        }
+
+        [HttpGet("full")]
+        public async Task<ActionResult> GetFull()
+        {
+            var hotelesFull = await _context.Hotels
+                .Include(h => h.Viajes)
+                    .ThenInclude(v => v.Cliente)
+                        .ThenInclude(c => c.Comentarios)
+                .ToListAsync();
+
+            return Ok(hotelesFull);
         }
 
         [HttpPost]
@@ -81,7 +97,6 @@ namespace Turismos.Api.Controllers
             }
 
             return NoContent();//204   
-
         }
     }
 }

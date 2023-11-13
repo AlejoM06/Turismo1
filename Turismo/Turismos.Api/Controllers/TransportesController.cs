@@ -21,7 +21,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Transportes.ToListAsync());
+            return Ok(await _context.Transportes
+                        .Include(t => t.Viajes)
+                        .ToListAsync());
 
         }
 
@@ -33,7 +35,9 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var transporte = await _context.Transportes.FirstOrDefaultAsync(c => c.Id == id);
+            var transporte = await _context.Transportes
+                .Include(t => t.Viajes)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (transporte == null)
             {
@@ -45,6 +49,17 @@ namespace Turismos.Api.Controllers
             return Ok(transporte);//200
 
         }
+
+        [HttpGet("full")]
+        public async Task<ActionResult<IEnumerable<Transporte>>> GetFull()
+        {
+            var transportesConViajes = await _context.Transportes
+                .Include(t => t.Viajes)
+                .ToListAsync();
+
+            return Ok(transportesConViajes);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Post(Transporte transporte)

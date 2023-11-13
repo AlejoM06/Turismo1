@@ -21,7 +21,7 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Hotels
+            return Ok(await _context.Hoteles
                 .Include(h => h.Viajes)
                 .ToListAsync());
 
@@ -35,7 +35,7 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var hotel = await _context.Hotels
+            var hotel = await _context.Hoteles
                  .Include(h => h.Viajes)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
@@ -53,7 +53,7 @@ namespace Turismos.Api.Controllers
         [HttpGet("full")]
         public async Task<ActionResult> GetFull()
         {
-            var hotelesFull = await _context.Hotels
+            var hotelesFull = await _context.Hoteles
                 .Include(h => h.Viajes)
                     .ThenInclude(v => v.Cliente)
                         .ThenInclude(c => c.Comentarios)
@@ -84,7 +84,7 @@ namespace Turismos.Api.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaafectada = await _context.Hotels
+            var filaafectada = await _context.Hoteles
                 .Where(c => c.Id == id)
                 .ExecuteDeleteAsync();
 

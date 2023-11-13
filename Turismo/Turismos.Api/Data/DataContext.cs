@@ -12,7 +12,7 @@ namespace Turismos.Api.Data
         }
         public DbSet<Viaje> Viajes { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Hotel> Hoteles { get; set; }
         public DbSet<Transporte> Transportes { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
         public DbSet<Factura> Facturas { get; set; }

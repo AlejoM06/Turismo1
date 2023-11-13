@@ -21,11 +21,11 @@ namespace Turismos.Shared.Entities
         [Required(ErrorMessage = "El campo {2} es obligatorio")]
         [Display(Name = "Fecha de inicio")]
         [DataType(DataType.Date)]
-        public DateTime FechaInicio { get; set; }
+        public string FechaInicio { get; set; }
         [Required(ErrorMessage = "El campo {3} es obligatorio")]
         [Display(Name = "Fecha final")]
         [DataType(DataType.Date)]
-        public DateTime FechaFin { get; set; }
+        public string FechaFin { get; set; }
         [Required(ErrorMessage = "El campo {4} es obligatorio")]
         [Display(Name = "Cantidad de puestos")]
         [DataType(DataType.PhoneNumber)]

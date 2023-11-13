@@ -1,0 +1,50 @@
+﻿@page "/comentarios"
+@using Turismos.Web.Shared
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+
+@inject IRepository repository
+
+<h3>Comentarios</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/comentarios/create">Nuevo Comentario</a>
+</div>
+
+<GenericList MyList="Comentarios">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Calificación</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var comentario in Comentarios!)
+                {
+                    <tr>
+                        <td>@comentario.Calificacion</td>
+                        <td>@comentario.Descripcion</td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    public List<Comentario>? Comentarios { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<List<Comentario>>("/api/comentarios");
+        Comentarios = responseHttp.Response!;
+    }
+}

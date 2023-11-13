@@ -14,7 +14,7 @@ namespace Turismos.Shared.Entities
         public int Id { get; set; }
         [Display(Name = "Calificación de 1 a 5")] // Etiquetas nombre campo
         [Required(ErrorMessage = "El campo {0} es obligatorio")] //Indica que hace un salto de nulos)
-        public int Calificacion { get; set; }
+        public String Calificacion { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Descripción")]
         [DataType(DataType.MultilineText)]

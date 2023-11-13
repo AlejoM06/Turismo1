@@ -18,11 +18,11 @@ namespace Turismos.Shared.Entities
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Fecha de Recogida")]
         [DataType(DataType.Date)]
-        public DateTime FechaRecogida { get; set; }
+        public string FechaRecogida { get; set; }
         [Required(ErrorMessage = "El campo {2} es obligatorio")]
         [Display(Name = "Fecha de finalización del recorrido")]
         [DataType(DataType.Date)]
-        public DateTime FechaFinal { get; set; }
+        public string FechaFinal { get; set; }
 
         [JsonIgnore]
         public ICollection<Viaje> Viajes { get; set; }

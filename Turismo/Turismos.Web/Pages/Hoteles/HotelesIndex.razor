@@ -1,0 +1,52 @@
+﻿@page "/hoteles"
+@using Turismos.Web.Shared
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+
+@inject IRepository repository
+
+<h3>Hoteles</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/hoteles/create">Nuevo Hotel</a>
+</div>
+
+<GenericList MyList="Hoteles">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre del Hotel</th>
+                    <th>Habitaciones</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var hotel in Hoteles!)
+                {
+                    <tr>
+                        <td>@hotel.NombreHotel</td>
+                        <td>@hotel.Habitaciones</td>
+                        <td>@hotel.Telefono</td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    public List<Hotel>? Hoteles { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<List<Hotel>>("/api/hoteles");
+        Hoteles = responseHttp.Response!;
+    }
+}

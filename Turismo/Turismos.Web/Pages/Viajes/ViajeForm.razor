@@ -1,0 +1,101 @@
+﻿@using Turismos.Shared.Entities
+
+@inject SweetAlertService swal
+
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
+
+<EditForm EditContext="editContext" OnSubmit="OnSubmit">
+
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Viaje:</label>
+        <label>Origen:</label>
+
+        <div>
+            <InputText class="form-control" @bind-Value="@Viaje.Origen" />
+            <ValidationMessage For="@(() => Viaje.Origen)" />
+        </div>
+        <label>Destino:</label>
+
+        <div>
+            <InputText class="form-control" @bind-Value="@Viaje.Destino" />
+            <ValidationMessage For="@(() => Viaje.Destino)" />
+        </div>
+        <label>Fecha de inicio:</label>
+
+        <div>
+            <InputText class="form-control" @bind-Value="@Viaje.FechaInicio" />
+            <ValidationMessage For="@(() => Viaje.FechaInicio)" />
+        </div>
+        <label>Fecha Final:</label>
+
+        <div>
+            <InputText class="form-control" @bind-Value="@Viaje.FechaFin" />
+            <ValidationMessage For="@(() => Viaje.FechaFin)" />
+        </div>
+        <label>Cantidad de puestos:</label>
+
+        <div>
+            <InputText class="form-control" @bind-Value="@Viaje.Puestos" />
+            <ValidationMessage For="@(() => Viaje.Puestos)" />
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
+</EditForm>
+
+@code {
+    private EditContext editContext = null!;
+
+    protected override void OnInitialized()
+    {
+        editContext = new(Viaje);
+    }
+
+    [EditorRequired]
+    [Parameter]
+    public Viaje Viaje { get; set; } = null!;
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnSubmit { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback ReturnAction { get; set; }
+    public bool FormPostedSuccessfully { get; set; } = false;
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var formWasEdited = editContext.IsModified();
+
+        if (!formWasEdited)
+        {
+            return;
+        }
+
+        if (FormPostedSuccessfully)
+        {
+            return;
+        }
+
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+
+        var confirm = !string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        context.PreventNavigation();
+    }
+
+}

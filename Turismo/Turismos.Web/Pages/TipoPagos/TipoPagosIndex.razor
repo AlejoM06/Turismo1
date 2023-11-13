@@ -1,0 +1,54 @@
+﻿@page "/tipoPagos"
+@using Turismos.Web.Shared
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+
+@inject IRepository repository
+
+<h3>Tipos de Pago</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/tipoPagos/create">Nuevo Tipo de Pago</a>
+</div>
+
+<GenericList MyList="TipoPagos">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tarjeta de Crédito</th>
+                    <th>Tarjeta de Débito</th>
+                    <th>Efectivo</th>
+                    <th>PSE</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tipoPago in TipoPagos!)
+                {
+                    <tr>
+                        <td>@tipoPago.TCredito</td>
+                        <td>@tipoPago.TDebito</td>
+                        <td>@tipoPago.Efectivo</td>
+                        <td>@tipoPago.PSE</td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    public List<TipoPago>? TipoPagos { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<List<TipoPago>>("/api/tipopago");
+        TipoPagos = responseHttp.Response!;
+    }
+}

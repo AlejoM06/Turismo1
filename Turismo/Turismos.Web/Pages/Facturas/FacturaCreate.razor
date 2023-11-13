@@ -1,0 +1,39 @@
+﻿@page "/facturas/create"
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Factura</h3>
+
+<FacturaForm @ref="facturaForm" Factura="factura" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Factura factura = new();
+    private FacturaForm? facturaForm;
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/factura", factura);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = "Error al procesar la solicitud.";
+
+            if (responseHttp.Response != null)
+            {
+                errorMessage = responseHttp.Response.ToString();
+            }
+
+            await sweetAlertService.FireAsync("Error", errorMessage);
+            return;
+        }
+        facturaForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/facturas");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/facturas");
+    }
+}

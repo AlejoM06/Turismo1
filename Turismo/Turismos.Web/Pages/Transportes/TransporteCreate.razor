@@ -1,0 +1,39 @@
+﻿@page "/transporte/create"
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Añadir Transporte</h3>
+
+<TransporteForm @ref="transporteForm" Transporte="transporte" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Transporte transporte = new();
+    private TransporteForm? transporteForm;
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/transportes", transporte);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = "Error al procesar la solicitud.";
+
+            if (responseHttp.Response != null)
+            {
+                errorMessage = responseHttp.Response.ToString();
+            }
+
+            await sweetAlertService.FireAsync("Error", errorMessage);
+            return;
+        }
+        transporteForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/transportes");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/transportes");
+    }
+}

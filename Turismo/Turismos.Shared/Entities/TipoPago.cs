@@ -15,7 +15,7 @@ namespace Turismos.Shared.Entities
         public string TCredito { get; set; }
         [DataType(DataType.CreditCard)]
         public string TDebito { get; set; }
-        public double Efectivo { get; set; }
+        public string Efectivo { get; set; }
         public string PSE { get; set; }
 
         [JsonIgnore]

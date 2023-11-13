@@ -14,10 +14,10 @@ namespace Turismos.Shared.Entities
         [Display(Name = "Fecha")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Date)]
-        public DataType Fecha { get; set; }
+        public string Fecha { get; set; }
         [Required]
         [Display(Name = "Total")]
-        public double Total { get; set; }
+        public string Total { get; set; }
         [Required]
         [Display(Name = "Detalle")]
         [DataType(DataType.MultilineText)]

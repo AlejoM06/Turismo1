@@ -1,0 +1,39 @@
+﻿@page "/tipoPagos/create"
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Tipo de Pago</h3>
+
+<TipoPagoForm @ref="tipoPagoForm" TipoPago="tipoPago" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private TipoPago tipoPago = new();
+    private TipoPagoForm? tipoPagoForm;
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/tipopago", tipoPago);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = "Error al procesar la solicitud.";
+
+            if (responseHttp.Response != null)
+            {
+                errorMessage = responseHttp.Response.ToString();
+            }
+
+            await sweetAlertService.FireAsync("Error", errorMessage);
+            return;
+        }
+        tipoPagoForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/tipoPagos");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/tipoPagos");
+    }
+}

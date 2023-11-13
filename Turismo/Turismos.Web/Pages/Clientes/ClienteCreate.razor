@@ -1,0 +1,39 @@
+﻿@page "/clientes/create"
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Cliente</h3>
+
+<ClienteForm @ref="clienteForm" Cliente="cliente" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Cliente cliente = new();
+    private ClienteForm? clienteForm;
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/cliente", cliente);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = "Error al procesar la solicitud.";
+
+            if (responseHttp.Response != null)
+            {
+                errorMessage = responseHttp.Response.ToString();
+            }
+
+            await sweetAlertService.FireAsync("Error", errorMessage);
+            return;
+        }
+        clienteForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/clientes");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/clientes");
+    }
+}

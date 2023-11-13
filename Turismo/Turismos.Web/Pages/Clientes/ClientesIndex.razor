@@ -1,0 +1,56 @@
+﻿@page "/clientes"
+@using Turismos.Web.Shared
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+
+@inject IRepository repository
+
+<h3>Clientes</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/clientes/create">Nuevo Cliente</a>
+</div>
+
+<GenericList MyList="Clientes">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Cédula</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cliente in Clientes!)
+                {
+                    <tr>
+                        <td>@cliente.NomUsuario</td>
+                        <td>@cliente.Cedula</td>
+                        <td>@cliente.Telefono</td>
+                        <td>@cliente.Correo</td>
+                        <td>@cliente.Direccion</td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
+
+@code {
+    public List<Cliente>? Clientes { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<List<Cliente>>("/api/cliente");
+        Clientes = responseHttp.Response!;
+    }
+}

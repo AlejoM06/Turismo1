@@ -17,11 +17,11 @@ namespace Turismos.Shared.Entities
         public string NombreHotel { get; set; }
         [Required(ErrorMessage = "El campo {1} es obligatorio")]
         [Display(Name = "Cantidad de habitaciones")]
-        public int Habitaciones { get; set; }
+        public string Habitaciones { get; set; }
         [DataType(DataType.PhoneNumber)]
         [Required]
         [Display(Name = "Teléfono")]
-        public int Telefono { get; set; }
+        public string Telefono { get; set; }
 
         [JsonIgnore]
         public ICollection<Viaje> Viajes { get; set; }

@@ -1,0 +1,39 @@
+﻿@page "/comentarios/create"
+@using Turismos.Shared.Entities;
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Comentario</h3>
+
+<ComentarioForm @ref="comentarioForm" Comentario="comentario" OnSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Comentario comentario = new();
+    private ComentarioForm? comentarioForm;
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/comentarios", comentario);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = "Error al procesar la solicitud.";
+
+            if (responseHttp.Response != null)
+            {
+                errorMessage = responseHttp.Response.ToString();
+            }
+
+            await sweetAlertService.FireAsync("Error", errorMessage);
+            return;
+        }
+        comentarioForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/comentarios");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/comentarios");
+    }
+}

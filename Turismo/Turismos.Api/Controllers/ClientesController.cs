@@ -4,6 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Turismos.Api.Data;
+using Turismos.Api.Helpers;
+using Turismos.Shared.DTOs;
 using Turismos.Shared.Entities;
 
 namespace Turismos.Api.Controllers
@@ -25,6 +27,18 @@ namespace Turismos.Api.Controllers
             var clientes = await _context.Clientes.ToListAsync();
             return Ok(clientes);
         }
+        [HttpGet("totalPages")]
+        public async Task<ActionResult> GetPages([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Clientes.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.NomUsuario.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)
@@ -42,6 +56,10 @@ namespace Turismos.Api.Controllers
 
             return Ok(cliente); // 200
         }
+
+
+
+
         [HttpGet("full")]
         public async Task<ActionResult> GetFull()
         {

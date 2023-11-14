@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Turismos.Api.Data;
+using Turismos.Api.Helpers;
+using Turismos.Shared.DTOs;
 using Turismos.Shared.Entities;
 
 namespace Turismos.Api.Controllers
@@ -20,15 +22,35 @@ namespace Turismos.Api.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
-
-
-            return Ok(await _context.Comentarios
-                .Include(c => c.Cliente)
-                .ToListAsync());
+            var queryable = _context.Comentarios
+                .Include(c => c.Calificacion)
+                .AsQueryable();
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Calificacion.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+            return Ok(await queryable
+            .OrderBy(x => x.Calificacion)
+            .Paginate(pagination)
+            .ToListAsync());
 
         }
+
+        [HttpGet("totalPages")]
+        public async Task<ActionResult> GetPages([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.Comentarios.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(pagination.Filter))
+            {
+                queryable = queryable.Where(x => x.Calificacion.ToLower().Contains(pagination.Filter.ToLower()));
+            }
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
+
 
         [HttpGet("{id:int}")]
         public async Task<ActionResult> Get(int id)

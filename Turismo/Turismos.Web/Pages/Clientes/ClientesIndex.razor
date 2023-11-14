@@ -4,12 +4,27 @@
 @using Turismos.Web.Repositories;
 
 @inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
 
 <h3>Clientes</h3>
 
-<div class="mb-3">
-    <a class="btn btn-primary" href="/clientes/create">Nuevo Cliente</a>
+<div class="mb-2" style="display: flex; flex-wrap:wrap; align-items: center;">
+    <div>
+        <a class="btn btn-primary" href="/clientes/create">Nuevo Cliente</a>
+    </div>
+    <div class="mx-2">
+        <input style="width: 400px;" type="text" class="form-control" id="titulo" placeholder="Buscar cliente..." @bind-value="Filter" />
+    </div>
+    <div>
+        <button type="button" class="btn btn-outline-primary" @onclick="ApplyFilterAsync">Filtrar</button>
+        <button type="button" class="btn btn-outline-danger" @onclick="CleanFilterAsync">Limpiar</button>
+    </div>
 </div>
+
+<Pagination CurrentPage="currentPage"
+            TotalPages="totalPages"
+            SelectedPage="SelectedPage" />
 
 <GenericList MyList="Clientes">
 
@@ -35,8 +50,9 @@
                         <td>@cliente.Correo</td>
                         <td>@cliente.Direccion</td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <a href="/clientes/edit/@cliente.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(cliente))>Borrar</button>
+
                         </td>
                     </tr>
                 }
@@ -47,10 +63,108 @@
 
 @code {
     public List<Cliente>? Clientes { get; set; }
+    private int currentPage = 1;
+    private int totalPages;
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Page { get; set; } = "";
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Filter { get; set; } = "";
 
     protected async override Task OnInitializedAsync()
     {
-        var responseHttp = await repository.Get<List<Cliente>>("/api/cliente");
-        Clientes = responseHttp.Response!;
+        await Load();
     }
+
+    private async Task Load()
+    {
+        var responseHppt = await repository.Get<List<Cliente>>("api/cliente");
+        Clientes = responseHppt.Response!;
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        currentPage = page;
+        await LoadAsync(page);
+    }
+
+    private async Task LoadAsync(int page = 1)
+    {
+        if (!string.IsNullOrWhiteSpace(Page))
+        {
+            page = Convert.ToInt32(Page);
+        }
+
+        string url1 = string.Empty;
+        string url2 = string.Empty;
+
+        if (string.IsNullOrEmpty(Filter))
+        {
+            url1 = $"api/cliente?page={page}";
+            url2 = $"api/cliente/totalPages";
+        }
+        else
+        {
+            url1 = $"api/cliente?page={page}&filter={Filter}";
+            url2 = $"api/cliente/totalPages?filter={Filter}";
+        }
+
+        var responseHppt = await repository.Get<List<Cliente>>(url1);
+        var responseHppt2 = await repository.Get<int>(url2);
+        Clientes = responseHppt.Response!;
+        totalPages = responseHppt2.Response!;
+    }
+
+    private async Task Delete(Cliente cliente)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Está seguro de que desea borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/cliente/{cliente.Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var mensajeError = responseHTTP.Response?.ToString() ?? "Error desconocido"; 
+                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await Load();
+        }
+    }
+    private async Task CleanFilterAsync()
+    {
+        Filter = string.Empty;
+        await ApplyFilterAsync();
+    }
+
+    private async Task ApplyFilterAsync()
+    {
+        int page = 1;
+        await LoadAsync(page);
+        await SelectedPage(page);
+    }
+
 }
+

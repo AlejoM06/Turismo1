@@ -1,0 +1,67 @@
+﻿@page "/facturas/edit/{Id:int}"
+@inject NavigationManager navigationManager
+@inject IRepository repository
+@inject SweetAlertService swal
+
+<h3>Editar Factura</h3>
+
+@if (factura is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <FacturaForm @ref="facturaForm" Factura="factura" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Factura? factura;
+    private FacturaForm? facturaForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHTTP = await repository.Get<Factura>($"api/factura/{Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("facturas");
+            }
+            else
+            {
+                var messageError = await responseHTTP.GetErrorMessage();
+                await swal.FireAsync("Error", messageError, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            factura = responseHTTP.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHTTP = await repository.Put("api/factura", factura);
+
+        if (responseHTTP.Error)
+        {
+            var mensajeError = await responseHTTP.GetErrorMessage();
+            await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+        }
+        else
+        {
+            facturaForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("facturas");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("facturas");
+    }
+}
+

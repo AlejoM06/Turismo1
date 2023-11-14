@@ -110,11 +110,16 @@ namespace Turismos.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TransporteId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
 
                     b.HasIndex("TipoPagoId");
+
+                    b.HasIndex("TransporteId");
 
                     b.ToTable("Facturas");
                 });
@@ -142,7 +147,7 @@ namespace Turismos.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hoteles");
                 });
 
             modelBuilder.Entity("Turismos.Shared.Entities.TipoPago", b =>
@@ -270,9 +275,17 @@ namespace Turismos.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Turismos.Shared.Entities.Transporte", "Transporte")
+                        .WithMany()
+                        .HasForeignKey("TransporteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Cliente");
 
                     b.Navigation("TipoPago");
+
+                    b.Navigation("Transporte");
                 });
 
             modelBuilder.Entity("Turismos.Shared.Entities.Viaje", b =>

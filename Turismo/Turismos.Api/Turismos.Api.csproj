@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Turismos.Shared\Turismos.Shared.csproj" />
+    <ProjectReference Include="..\Turismos.Web\Turismos.Web.csproj" />
   </ItemGroup>
 
 </Project>

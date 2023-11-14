@@ -21,7 +21,7 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Hotels.ToListAsync());
+            return Ok(await _context.Hoteles.ToListAsync());
 
         }
 
@@ -33,7 +33,7 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var hotel = await _context.Hotels.FirstOrDefaultAsync(c => c.Id == id);
+            var hotel = await _context.Hoteles.FirstOrDefaultAsync(c => c.Id == id);
 
             if (hotel == null)
             {
@@ -68,7 +68,7 @@ namespace Turismos.Api.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaafectada = await _context.Hotels
+            var filaafectada = await _context.Hoteles
                 .Where(c => c.Id == id)
                 .ExecuteDeleteAsync();
 

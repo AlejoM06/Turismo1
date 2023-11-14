@@ -1,4 +1,6 @@
-﻿namespace Turismos.Web.Repositories
+﻿using System.Threading.Tasks;
+
+namespace Turismos.Web.Repositories
 {
     public interface IRepository
     {

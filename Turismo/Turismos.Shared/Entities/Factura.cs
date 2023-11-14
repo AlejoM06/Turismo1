@@ -31,5 +31,8 @@ namespace Turismos.Shared.Entities
         public TipoPago TipoPago { get; set; }
         public int TipoPagoId { get; set; }
 
+        [JsonIgnore]
+        public Transporte Transporte { get; set; }
+        public int TransporteId { get; set; }
     }
 }

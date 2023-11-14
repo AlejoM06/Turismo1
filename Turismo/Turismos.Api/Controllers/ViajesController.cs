@@ -21,8 +21,11 @@ namespace Turismos.Api.Controllers
         {
 
 
-            return Ok(await _context.Viajes.ToListAsync());
-
+            return Ok(await _context.Viajes
+                .Include(v => v.Cliente)
+                .Include(v => v.Hotel)
+                .Include(v => v.Transporte)
+                .ToListAsync());
         }
 
 
@@ -33,7 +36,11 @@ namespace Turismos.Api.Controllers
         {
 
 
-            var viaje = await _context.Viajes.FirstOrDefaultAsync(c => c.Id == id);
+            var viaje = await _context.Viajes
+                .Include(v => v.Cliente)
+                .Include(v => v.Hotel)
+                .Include(v => v.Transporte)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
             if (viaje == null)
             {

@@ -1,0 +1,115 @@
+﻿@page "/clientes/details/{Id:int}"
+@using Turismos.Shared.Entities
+@using Turismos.Web.Repositories;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+@if (cliente is null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <h3>@cliente.NomUsuario</h3>
+    <p>Cédula: @cliente.Cedula</p>
+    <p>Teléfono: @cliente.Telefono</p>
+    <p>Correo: @cliente.Correo</p>
+    <p>Dirección: @cliente.Direccion</p>
+
+    <div class="mb-2">
+        <a class="btn btn-primary" href="/comentarios/create/@cliente.Id">Nuevo Comentario</a>
+        <a class="btn btn-success" href="/clientes">Regresar</a>
+    </div>
+
+    <GenericList MyList="comentarios">
+        <Body>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Calificación</th>
+                        <th>Descripción</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var comentario in comentarios!)
+                    {
+                        <tr>
+                            <td>@comentario.Calificacion</td>
+                            <td>@comentario.Descripcion</td>
+                            <td>
+                                <a class="btn btn-info" href="/comentarios/details/@comentario.Id">Detalles</a>
+                                <a class="btn btn-warning" href="/comentarios/edit/@comentario.Id">Editar</a>
+                                <button class="btn btn-danger" @onclick=@(() => DeleteAsync(comentario.Id))>Borrar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </Body>
+    </GenericList>
+}
+
+@code {
+    private Cliente cliente;
+    private List<Comentario> comentarios;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        var responseHttpCliente = await repository.Get<Cliente>($"/api/clientes/{Id}");
+        if (responseHttpCliente.Error)
+        {
+            return;
+        }
+
+        cliente = responseHttpCliente.Response;
+
+        var responseHttpComentarios = await repository.Get<List<Comentario>>($"/api/clientes/{Id}/comentarios");
+        if (responseHttpComentarios.Error)
+        {
+            return;
+        }
+
+        comentarios = responseHttpComentarios.Response;
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Realmente deseas eliminar el comentario?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Sí"
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHttp = await repository.Delete($"/api/comentarios/{id}");
+        if (responseHttp.Error)
+        {
+            var errorMessage = responseHttp.Response?.ToString() ?? "Error desconocido";
+            await sweetAlertService.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+
+            return;
+        }
+
+        await LoadAsync();
+    }
+
+}

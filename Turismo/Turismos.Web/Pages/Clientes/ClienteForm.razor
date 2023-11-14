@@ -3,7 +3,7 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 
-<EditForm EditContext="editContext" OnSubmit="OnValidSubmit">
+<EditForm EditContext="editContext" OnSubmit="OnSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label>Nombre:</label>
@@ -42,16 +42,12 @@
 
     protected override void OnInitialized()
     {
-        editContext = new EditContext(Cliente);
+        editContext = new(Cliente);
     }
 
     [EditorRequired]
     [Parameter]
     public Cliente Cliente { get; set; } = null!;
-
-    [EditorRequired]
-    [Parameter]
-    public EventCallback OnValidSubmit { get; set; }
 
     [EditorRequired]
     [Parameter]
@@ -94,5 +90,6 @@
 
         context.PreventNavigation();
     }
+
 }
 
